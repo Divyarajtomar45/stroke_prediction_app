@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Stroke Risk Assessment</title>
+    <style>
+        
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --danger-color: #ea4335;
+            --warning-color: #fbbc05;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 15px 0;
+            color: var(--primary-color);
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 10px 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .risk-bar {
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .risk-level {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .Low {
+            background-color: var(--secondary-color);
+        }
+        
+        .Moderate {
+            background-color: var(--warning-color);
+        }
+        
+        .High {
+            background-color: var(--danger-color);
+        }
+        
+        .Very-High {
+            background-color: #9c27b0;
+        }
+        
+        .recommendation {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #e8f4fd;
+            border-left: 4px solid var(--primary-color);
+            margin-top: 20px;
+        }
+        
+        .user-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .user-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .user-info-item {
+            margin-bottom: 5px;
+        }
+        
+        .user-info-item strong {
+            font-weight: 600;
+        }
+        
+        .risk-indicator {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .print-btn {
+            background-color: #6c757d;
+            color: white;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .btn {
+                display: none;
+            }
+            
+            .footer {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Your Stroke Risk Assessment</h1>
+        <p>Analysis results based on your health parameters</p>
+    </header>
+    
+    <div class="container">
+        <div class="card">
+            <div class="user-info">
+                <h3>Health Information Provided</h3>
+                <div class="user-info-grid">
+                    <div class="user-info-item">
+                        <strong>Age:</strong> {{ user_data.age }} years
+                    </div>
+                    <div class="user-info-item">
+                        <strong>Gender:</strong> {{ user_data.gender }}
+                    </div>
+                    <div class="user-info-item">
+                        <strong>Hypertension:</strong> {{ user_data.hypertension }}
+                    </div>
+                    <div class="user-info-item">
+                        <strong>Heart Disease:</strong> {{ user_data.heart_disease }}
+                    </div>
+                    <div class="user-info-item">
+                        <strong>BMI:</strong> {{ user_data.bmi }}
+                    </div>
+                    <div class="user-info-item">
+                        <strong>Avg. Glucose Level:</strong> {{ user_data.avg_glucose_level }} mg/dL
+                    </div>
+                    <div class="user-info-item">
+                        <strong>Smoking Status:</strong> {{ user_data.smoking_status }}
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Risk Assessment Results</h2>
+            
+            <h3>
+                Risk Level:
+                <span class="risk-indicator"
+                      style="background-color: 
+                      {% if risk_level == 'Low' %}#4caf50
+                      {% elif risk_level == 'Moderate' %}#ff9800
+                      {% elif risk_level == 'High' %}#f44336
+                      {% else %}#9c27b0{% endif %};">
+                </span>
+                {{ risk_level }}
+            </h3>
+            
+            <p>Stroke Risk Probability: <strong>{{ "%.1f"|format(result.probability) }}%</strong></p>
+            
+            <div class="risk-bar">
+                <div class="risk-level {{ result.risk_level }}" style="width: {{ result.probability }}%"></div>
+            </div>
+            
+            <div class="recommendation">
+                <h3>Recommendation:</h3>
+                <p>{{ result.recommendation }}</p>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <p><strong>Note:</strong> This assessment is based on the limited information provided and should not be considered as medical advice. Always consult with a healthcare professional for a comprehensive evaluation.</p>
+            </div>
+            
+            <a href="/" class="btn btn-primary">Make Another Assessment</a>
+            <button class="btn print-btn" onclick="window.print()">Print Report</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 Stroke Risk Prediction Tool | Developed for educational purposes</p>
+        <p>This is a machine learning model trained on synthetic data. For actual medical advice, please consult a healthcare professional.</p>
+    </div>
+</body>
+</html>

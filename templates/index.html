@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stroke Risk Prediction</title>
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --danger-color: #ea4335;
+            --warning-color: #fbbc05;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 15px 0;
+            color: var(--primary-color);
+        }
+        
+        .description {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3367d6;
+            transform: translateY(-2px);
+        }
+        
+        .info-icon {
+            display: inline-block;
+            margin-left: 5px;
+            width: 18px;
+            height: 18px;
+            background-color: #6c757d;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        
+        .info-icon:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Stroke Risk Prediction</h1>
+        <p>AI-powered tool to assess your stroke risk based on health parameters</p>
+    </header>
+    
+    <div class="container">
+        <div class="description">
+            <h2>About This Tool</h2>
+            <p>This tool uses machine learning to estimate your risk of stroke based on several health parameters. Please note that this is not a medical diagnosis, and you should always consult with a healthcare professional for accurate medical advice.</p>
+            <p><strong>Disclaimer:</strong> This tool is for educational purposes only and should not replace professional medical consultation.</p>
+        </div>
+        
+        <div class="card">
+            <h2>Enter Your Health Information</h2>
+            <form id="predictionForm" action="/predict" method="post">
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="age">Age <span class="info-icon">i
+                            <span class="tooltip">Enter your age in years</span>
+                        </span></label>
+                        <input type="number" class="form-control" id="age" name="age" min="18" max="120" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hypertension">Hypertension <span class="info-icon">i
+                            <span class="tooltip">Have you been diagnosed with hypertension (high blood pressure)?</span>
+                        </span></label>
+                        <select class="form-control" id="hypertension" name="hypertension" required>
+                            <option value="">Select option</option>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="heart_disease">Heart Disease <span class="info-icon">i
+                            <span class="tooltip">Have you been diagnosed with any heart disease?</span>
+                        </span></label>
+                        <select class="form-control" id="heart_disease" name="heart_disease" required>
+                            <option value="">Select option</option>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bmi">BMI (Body Mass Index) <span class="info-icon">i
+                            <span class="tooltip">BMI is calculated as weight(kg)/height²(m). Normal range is 18.5-24.9</span>
+                        </span></label>
+                        <input type="number" step="0.1" class="form-control" id="bmi" name="bmi" min="10" max="50" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="avg_glucose_level">Average Glucose Level (mg/dL) <span class="info-icon">i
+                            <span class="tooltip">Blood glucose level. Normal fasting value is around 70-100 mg/dL</span>
+                        </span></label>
+                        <input type="number" step="0.1" class="form-control" id="avg_glucose_level" name="avg_glucose_level" min="50" max="300" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="smoking_status">Smoking Status</label>
+                        <select class="form-control" id="smoking_status" name="smoking_status" required>
+                            <option value="">Select smoking status</option>
+                            <option value="never smoked">Never Smoked</option>
+                            <option value="formerly smoked">Formerly Smoked</option>
+                            <option value="smokes">Current Smoker</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Predict Stroke Risk</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 Stroke Risk Prediction Tool | Developed for educational purposes</p>
+        <p>This is a machine learning model trained on synthetic data. For actual medical advice, please consult a healthcare professional.</p>
+    </div>
+</body>
+</html>
